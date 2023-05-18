@@ -1,6 +1,5 @@
-ExpenseIt/bin/
-ExpenseIt/obj/
-ExpenseIt/.vs/
-AnimatedButton/bin/
-AnimatedButton/obj/
-AnimatedButton/.vs/
+*/bin/
+*/obj/
+*/.*
+*~
+SignUpPage/resource/GMDSOFT_color.png
