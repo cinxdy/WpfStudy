@@ -1,0 +1,31 @@
+﻿<Window x:Class="PersonList.SignUpModal"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="SignUp" Height="450" Width="600">
+    <Grid Margin="20" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30*"/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+        
+        <TextBlock Text="정보 입력" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" Grid.Row="0"/>
+        <StackPanel Width="400" Margin="20" Grid.Row="1" >
+            <TextBlock Text="이름" Margin="5" FontSize="15" FontWeight="Bold" />
+            <TextBox Name="TxtName" Margin="5" FontSize="13"/>
+
+            <TextBlock Text="나이" Margin="5" FontSize="15" FontWeight="Bold"/>
+            <TextBox Name="TxtAge" Margin="5" FontSize="13"/>
+
+            <TextBlock Text="주소" Margin="5" FontSize="15" FontWeight="Bold" />
+            <TextBox Name="TxtAddress" Margin="5" FontSize="13" />
+
+            <TextBlock Text="휴대폰" Margin="5" FontSize="15" FontWeight="Bold" />
+            <TextBox Name="TxtPhoneNumber" Margin="5" FontSize="13" />
+        </StackPanel>
+        <Button Click="Button_Click" Content="입력 완료" Grid.Row="2" Width="300"/>
+    </Grid>
+</Window>
