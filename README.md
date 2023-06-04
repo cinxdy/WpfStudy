@@ -85,7 +85,7 @@ For example, if I want to dispose textblock in the grid (1,1) and (2,1), it can 
 - Q) Is it a good pattern that model depends on a viewModel? If not, should a viewModel have models as a member instance?
 - A) ?
    
-- Q) How can modal sends any data to their parent windows?
+- Q) How can modal send any data to their parent windows?
 - A) ?
 
 ### Screenshot of a running process
