@@ -6,26 +6,50 @@
         mc:Ignorable="d"
         Title="SignUp" Height="450" Width="600">
     <Grid Margin="20" >
+        <Grid.Resources>
+            <Style x:Key="h1Text">
+                <Setter Property="TextBlock.FontFamily" Value="함초롬돋움"/>
+                <Setter Property="TextBlock.FontSize" Value="20"/>
+                <Setter Property="TextBlock.FontWeight" Value="Bold"/>
+                <Setter Property="TextBlock.HorizontalAlignment" Value="Center"/>
+            </Style>
+            <Style x:Key="h2Text">
+                <Setter Property="TextBlock.FontFamily" Value="함초롬돋움"/>
+                <Setter Property="TextBlock.Margin" Value="5"/>
+                <Setter Property="TextBlock.FontSize" Value="15"/>
+                <Setter Property="TextBlock.FontWeight" Value="Bold"/>
+            </Style>
+            <Style x:Key="h2TextBox">
+                <Setter Property="TextBox.FontFamily" Value="함초롬돋움"/>
+                <Setter Property="TextBox.Margin" Value="5"/>
+                <Setter Property="TextBox.FontSize" Value="13"/>
+                <Setter Property="TextBox.Height" Value="25"/>
+            </Style>
+            <Style x:Key="btnStyle">
+                <Setter Property="Button.FontFamily" Value="함초롬돋움"/>
+                <Setter Property="Button.Width" Value="300"/>
+            </Style>
+        </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
             <RowDefinition Height="30*"/>
             <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
         
-        <TextBlock Text="정보 입력" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" Grid.Row="0"/>
+        <TextBlock Text="정보 입력" Style="{StaticResource h1Text}" Grid.Row="0"/>
         <StackPanel Width="400" Margin="20" Grid.Row="1" >
-            <TextBlock Text="이름" Margin="5" FontSize="15" FontWeight="Bold" />
-            <TextBox Name="TxtName" Margin="5" FontSize="13"/>
+            <TextBlock Text="이름" Style="{StaticResource h2Text}"/>
+            <TextBox Text="{Binding Name}" Style="{StaticResource h2TextBox}"/>
 
-            <TextBlock Text="나이" Margin="5" FontSize="15" FontWeight="Bold"/>
-            <TextBox Name="TxtAge" Margin="5" FontSize="13"/>
+            <TextBlock Text="나이" Style="{StaticResource h2Text}"/>
+            <TextBox Text="{Binding Age}" Style="{StaticResource h2TextBox}"/>
 
-            <TextBlock Text="주소" Margin="5" FontSize="15" FontWeight="Bold" />
-            <TextBox Name="TxtAddress" Margin="5" FontSize="13" />
+            <TextBlock Text="주소" Style="{StaticResource h2Text}"/>
+            <TextBox Text="{Binding Address}" Style="{StaticResource h2TextBox}" />
 
-            <TextBlock Text="휴대폰" Margin="5" FontSize="15" FontWeight="Bold" />
-            <TextBox Name="TxtPhoneNumber" Margin="5" FontSize="13" />
+            <TextBlock Text="휴대폰" Style="{StaticResource h2Text}"/>
+            <TextBox Text="{Binding PhoneNumber}" Style="{StaticResource h2TextBox}" />
         </StackPanel>
-        <Button Click="Button_Click" Content="입력 완료" Grid.Row="2" Width="300"/>
+        <Button Click="Button_Click" Content="완료" Grid.Row="2" Style="{StaticResource btnStyle}"/>
     </Grid>
 </Window>

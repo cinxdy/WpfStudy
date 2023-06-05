@@ -14,9 +14,15 @@ namespace PersonList
             DataContext = new PersonModel();
         }
 
+        internal SignUpModal(PersonModel person)
+        {
+            InitializeComponent();
+            DataContext = person;
+        }
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            this.newPerson = new PersonModel(TxtName.Text, Int32.Parse(TxtAge.Text), TxtAddress.Text, TxtPhoneNumber.Text);
+            this.newPerson = DataContext as PersonModel;
             this.Close();
         }
 

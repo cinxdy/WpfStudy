@@ -85,7 +85,13 @@ For example, if I want to dispose textblock in the grid (1,1) and (2,1), it can 
 - Q) Is it a good pattern that model depends on a viewModel? If not, should a viewModel have models as a member instance?
 - A) ?
    
+- Q) Do I only have to make DelegateCommand to allocate any method to ICommand? Or is there any solution or library to use something like DelegateCommand?
+- A) ?
+
 - Q) How can modal send any data to their parent windows?
+- A) ?
+
+- Q) Can I use string format in view (xaml) or is it better to do this in viewModel when showing data?
 - A) ?
 
 ### Screenshot of a running process

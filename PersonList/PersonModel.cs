@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-
-namespace PersonList
+﻿namespace PersonList
 {
     internal class PersonModel
     {

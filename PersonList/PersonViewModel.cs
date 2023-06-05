@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace PersonList
@@ -56,7 +53,8 @@ namespace PersonList
         private void LoadInfo()
         {
             var person = selectedItem as PersonModel;
-
+            var modal = new SignUpModal(person);
+            modal.ShowDialog();
         }
 
         #region Command

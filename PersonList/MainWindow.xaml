@@ -31,7 +31,7 @@
             <Button Content="모두 삭제" FontSize="12" Margin = "5,10" Command="{Binding DeleteAllCommand}"/>
         </StackPanel>
 
-        <ListBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Margin="5" ItemsSource="{Binding Persons}" SelectedItem="{Binding selectedItem}">
+        <ListBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Margin="5" ItemsSource="{Binding Persons}" SelectedItem="{Binding selectedItem}" d:ItemsSource="{d:SampleData ItemCount=5}">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseDoubleClick">
                     <i:InvokeCommandAction Command="{Binding LoadInfoCommand}"/>
@@ -41,10 +41,20 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
-                        <TextBlock Text="{Binding Name}" FontWeight="Bold" FontSize="15"/>
-                        <TextBlock Text="{Binding Age}" FontWeight="Bold" FontSize="15"/>
-                        <TextBlock Text="{Binding Address}"  FontSize="13"/>
-                        <TextBlock Text="{Binding PhoneNumber}" FontSize="13"/>
+                        <StackPanel Orientation="Horizontal" Margin="3">
+                            <TextBlock Text="{Binding Name}" FontWeight="Bold" FontSize="15" Margin="5,0,5,0"/>
+                            <TextBlock Text="{Binding Age, StringFormat='({0:d})'}" FontStyle="Italic" FontSize="13" Margin="5,0,5,0" />
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="3">
+                            <TextBlock Text="주소" Margin="5,0,5,0"/>
+                            <TextBlock Text="{Binding Address}" Margin="5,0,5,0"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="3">
+                            <TextBlock Text="휴대폰" Margin="5,0,5,0"/>
+                            <TextBlock Text="{Binding PhoneNumber}" Margin="5,0,5,0"/>
+                        </StackPanel>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
