@@ -23,7 +23,7 @@ namespace PersonList
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             this.newPerson = DataContext as PersonModel;
-            this.Close();
+            DialogResult = true;
         }
 
         internal PersonModel newPerson { get; private set; }

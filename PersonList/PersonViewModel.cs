@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
@@ -20,6 +21,8 @@ namespace PersonList
             }
         }
 
+
+
         public PersonModel selectedItem { get; set; }
 
         public PersonViewModel()
@@ -31,12 +34,13 @@ namespace PersonList
         private void Add()
         {
             var modal = new SignUpModal();
-            modal.ShowDialog();
-
-            if (modal.newPerson == null)
+            if (modal.ShowDialog() == false)
+            {
                 MessageBox.Show("No Person!");
-            else
-                _persons.Add(modal.newPerson);
+                return;
+            }
+
+            _persons.Add(modal.newPerson);
         }
 
         private void Delete()
