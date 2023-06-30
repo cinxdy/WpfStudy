@@ -4,47 +4,69 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="드라이브 스캔" Width="600" Height="480">
+        Title="드라이브 스캔" Width="800" Height="480">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="100"/>
-            <RowDefinition Height="300*"/>
+            <RowDefinition />
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0">
-            <TextBlock Text="개발소스" FontSize="25" Margin="10"/>
-            <TextBlock Text="{Binding RootVolume}" FontSize="25" Margin="10"/>
+            
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding RootVolume}" FontSize="25" Margin="10"/>
+                <TextBlock Text="{Binding RootVolumeName}" FontSize="25" Margin="10"/>
+            </StackPanel>
 
-            <Grid Margin="10">
-                <TextBlock Text="{Binding totalCount, StringFormat=스캔한 파일: {0:d}개}" FontSize="18"/>
-                <Button Content="중지" Width="125" HorizontalAlignment="Right"/>
+            <Grid Margin="10" Column="4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="250"/>
+                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{Binding TotalCount, StringFormat='스캔한 파일: {0:d}개'}" FontSize="18" Grid.Column="0"/>
+                <TextBlock Text="{Binding FailedCount, StringFormat='실패한 파일: {0:d}개'}" FontSize="14" Grid.Column="1"/>
+                <Button Content="시작" Command="{Binding BeginCommand}" Grid.Column="2"/>
+                <Button Content="{Binding StopText}" Command="{Binding StopCommand}" Grid.Column="3"/>
             </Grid>
         </StackPanel>
 
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="300"/>
-                <ColumnDefinition Width="300"/>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
             <StackPanel Grid.Column="0">
                 <TextBlock Text="Top 10" FontSize="16" FontWeight="Bold"/>
-                <ListBox ItemsSource="{Binding TopTenList}" AlternationCount="10" SelectedItem="{Binding SelectedExtension}">
+                <ListBox ItemsSource="{Binding TopTenList}" SelectedItem="{Binding SelectedExtension}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding extension}"/>
-                                <TextBlock Text="{Binding count}"/>
-                                <TextBlock Text="{Binding size}"/>
-                            </StackPanel>
+                            <Grid Column="3">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition MinWidth="50"/>
+                                    <ColumnDefinition MinWidth="60"/>
+                                    <ColumnDefinition MinWidth="50"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="{Binding Extension}" Grid.Column="0" FontSize="15"/>
+                                <TextBlock Text="{Binding TotalSize}" Grid.Column="1" FontSize="15"/>
+                                <TextBlock Text="{Binding }" Grid.Column="2" FontSize="15"/>
+                            </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
             </StackPanel>
 
             <StackPanel Grid.Column="1">
-                <TextBlock Text="{Binding SelectedExtension.extension}"/>
-                <ListBox ItemsSource="{Binding SelectedExtension.PathList}"/>
+                <TextBlock Text="{Binding SelectedExtension.Extension}" FontSize="16" FontWeight="Bold"/>
+                <ListBox ItemsSource="{Binding SelectedExtension.FullPathList}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding }"/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
             </StackPanel>
         </Grid>
     </Grid>

@@ -1,56 +1,155 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
+using System.Windows;
+using System.Windows.Navigation;
+using System.Windows.Threading;
 
 namespace ScanDrive
 {
     public class FileSearchEngine
     {
-        public FileSearchEngine() 
+        public FileSearchEngine(CancellationTokenSource cts)
         {
-            GetRoot();
             TotalCount = 0;
+            FailedCount = 0;
+            this._cts = cts;
+            ExtensionSummaries = new List<ExtensionSummary>();
+
+            getDriveInfo();
         }
 
-        public void GetRoot()
+        public EventHandler ListChanged;
+        void OnListChanged()
         {
-            DriveInfo drive = DriveInfo.GetDrives().First<DriveInfo>();
+            ListChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void UpdateCount(object sender, EventArgs e)
+        {
+            if (sender is ExtensionSummary item)
+                TotalCount += item.FullPathList.Count;
+
+            ExtensionSummaries.Sort((item1, item2) => item1.FullPathList.Count - item2.FullPathList.Count);
+
+            OnListChanged();
+        }
+
+        public void ExpandAll()
+        {
+            expandAll(_rootDir, _cts.Token);
+        }
+
+        private void getDriveInfo()
+        {
+            DriveInfo drive = DriveInfo.GetDrives().First();
 
             RootVolume = drive.Name;
-            RootDir = drive.RootDirectory;
+            RootVolumeName = drive.VolumeLabel;
+            _rootDir = drive.RootDirectory;
         }
 
-        public void Expand(DirectoryInfo parent)
+        private void addOrUpdate(string extension, long size, string path)
         {
-            foreach (var f in parent.GetFiles())
-            {
-                if (fileSummaries.ContainsKey(f.Extension))
-                    fileSummaries[f.Extension].AddValues(f);
-                else
-                    fileSummaries[f.Extension] = new FileSummary(f);
+            var item = ExtensionSummaries.Find(s => s.Extension.Equals(extension));
 
-                TotalCount++;
+            if (item == null) // Add
+            {
+                item = new ExtensionSummary(extension, size, path);
+                item.Changed += UpdateCount;
+                ExtensionSummaries.Add(item);
+            }
+            else // UpdateCount
+            {
+                item.AddData(size, path);
             }
         }
 
-        public void ExpandAll(DirectoryInfo parent)
+        private void expand(DirectoryInfo parent)
         {
-            Expand(parent);
-            foreach (var dir in parent.GetDirectories())
-                ExpandAll(dir);
+            foreach (var f in parent.GetFiles())
+                addOrUpdate(f.Extension, f.Length, f.FullName);
         }
 
-        public readonly Dictionary<string, FileSummary> fileSummaries = new Dictionary<string, FileSummary>();
+        private void expandAll(DirectoryInfo parent, CancellationToken ct)
+        {
+            if (ct.IsCancellationRequested) return;
+
+            try
+            {
+                expand(parent);
+            }
+            catch
+            {
+                FailedCount++;
+            }
+
+            try
+            {
+                foreach (var dir in parent.GetDirectories())
+                    expandAll(dir, ct);
+            }
+            catch
+            {
+                FailedCount++;
+            }
+        }
 
         public string RootVolume { get; private set; }
-        public DirectoryInfo RootDir { get; private set; }
-        public int TotalCount { get; private set; }
+        public string RootVolumeName { get; private set; }
+        private DirectoryInfo _rootDir;
 
+        public List<ExtensionSummary> ExtensionSummaries { get; }
+
+        public int FailedCount { get; private set; }
+
+        private CancellationTokenSource _cts { get; set; }
+        public int TotalCount { get; set; }
     }
 
+    public class ExtensionSummary
+    {
+        public ExtensionSummary(string extension, long size, string path)
+        {
+            Extension = extension;
+            TotalSize = 0;
+            FullPathList = new List<string>();
+
+            AddData(size, path);
+        }
+
+        #region Method
+
+        public void AddData(long size, string path)
+        {
+            TotalSize += size;
+            FullPathList.Add(path);
+
+            OnChanged();
+        }
+
+        #endregion
+
+
+        #region Properties
+        public string Extension { get; private set; }
+        public long TotalSize { get; private set; }
+        public List<string> FullPathList { get; private set; }
+        #endregion
+
+        #region Event
+
+        public event EventHandler Changed;
+        protected void OnChanged()
+        {
+            Changed?.Invoke(this, new EventArgs());
+        }
+
+        #endregion
+    }
 }
